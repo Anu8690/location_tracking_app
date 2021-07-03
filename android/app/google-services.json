@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "527259566313",
+    "project_id": "location-tracking-app-9cfc4",
+    "storage_bucket": "location-tracking-app-9cfc4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527259566313:android:c93569786a11ca9faef078",
+        "android_client_info": {
+          "package_name": "com.example.location_tracking_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527259566313-o9oc2se7fo3966ge7lr99jlh20tttkst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.location_tracking_app",
+            "certificate_hash": "b1f42f0915d2ec96f5a6b3957dfff12ba8a546c4"
+          }
+        },
+        {
+          "client_id": "527259566313-ddopug9eu2604co8otetl1pp1e68rt68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsBCe1Pv3zvfoKQ-ZKLBKsANJ1zcgUX04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527259566313-ddopug9eu2604co8otetl1pp1e68rt68.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
