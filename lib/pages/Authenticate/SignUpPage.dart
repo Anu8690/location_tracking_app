@@ -1,10 +1,10 @@
 import 'package:location_tracking_app/Service/Auth_Service.dart';
 import 'package:location_tracking_app/pages/HomePage.dart';
-import 'package:location_tracking_app/pages/Authenticate/PhoneAuth.dart';
 import 'package:location_tracking_app/pages/Authenticate/SignInPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:location_tracking_app/Models/User.dart' as userData;
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -16,6 +16,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   TextEditingController _emailController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
   TextEditingController _pwdController = TextEditingController();
   bool circular = false;
   AuthClass authClass = AuthClass();
@@ -42,11 +43,15 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 38,
               ),
-              textItem("Email....", _emailController, false),
+              textItem("Name", _nameController, false),
               SizedBox(
                 height: 15,
               ),
-              textItem("Password...", _pwdController, true),
+              textItem("Email", _emailController, false),
+              SizedBox(
+                height: 15,
+              ),
+              textItem("Password", _pwdController, true),
               SizedBox(
                 height: 40,
               ),
@@ -99,6 +104,8 @@ class _SignUpPageState extends State<SignUpPage> {
           firebase_auth.UserCredential userCredential =
               await firebaseAuth.createUserWithEmailAndPassword(
                   email: _emailController.text, password: _pwdController.text);
+              userData.User user = new userData.User(uid: firebaseAuth.currentUser!.uid,name: _nameController.text);
+              await user.addUser();
           print(userCredential.user!.email);
           setState(() {
             circular = false;

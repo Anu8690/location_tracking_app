@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:location_tracking_app/Service/Auth_Service.dart';
 import 'package:flutter/material.dart';
+import 'package:location_tracking_app/pages/wrapper.dart';
+import 'package:location_tracking_app/shared/loading.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
@@ -16,6 +18,7 @@ class PhoneAuthPage extends StatefulWidget {
 class _PhoneAuthPageState extends State<PhoneAuthPage> {
   int start = 30;
   bool wait = false;
+  bool loading = false;
   String buttonName = "Send";
   TextEditingController phoneController = TextEditingController();
   AuthClass authClass = AuthClass();
@@ -23,108 +26,119 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
   String smsCode = "";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black87,
-      appBar: AppBar(
-        backgroundColor: Colors.black87,
-        title: Text(
-          "SignUp",
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        ),
-        centerTitle: true,
-      ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 120,
+    return loading
+        ? Loading(message: "logging In....")
+        : Scaffold(
+            backgroundColor: Colors.black87,
+            appBar: AppBar(
+              backgroundColor: Colors.black87,
+              title: Text(
+                "SignUp",
+                style: TextStyle(color: Colors.white, fontSize: 24),
               ),
-              textField(),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width - 30,
-                child: Row(
+              centerTitle: true,
+            ),
+            body: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    Expanded(
-                      child: Container(
-                        height: 1,
-                        color: Colors.grey,
-                        margin: EdgeInsets.symmetric(horizontal: 12),
+                    SizedBox(
+                      height: 120,
+                    ),
+                    textField(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width - 30,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 1,
+                              color: Colors.grey,
+                              margin: EdgeInsets.symmetric(horizontal: 12),
+                            ),
+                          ),
+                          Text(
+                            "Enter 6 digit OTP",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 1,
+                              color: Colors.grey,
+                              margin: EdgeInsets.symmetric(horizontal: 12),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Text(
-                      "Enter 6 digit OTP",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    SizedBox(
+                      height: 30,
                     ),
-                    Expanded(
+                    otpField(),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    RichText(
+                        text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Send OTP again in ",
+                          style: TextStyle(
+                              fontSize: 16, color: Colors.yellowAccent),
+                        ),
+                        TextSpan(
+                          text: "00:$start",
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.pinkAccent),
+                        ),
+                        TextSpan(
+                          text: " sec ",
+                          style: TextStyle(
+                              fontSize: 16, color: Colors.yellowAccent),
+                        ),
+                      ],
+                    )),
+                    SizedBox(
+                      height: 150,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        setLoading(true);
+                        await authClass.signInwithPhoneNumber(
+                            verificationIdFinal, smsCode, context);
+                        setLoading(false);
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => Wrapper()),
+                            (route) => false);
+                      },
                       child: Container(
-                        height: 1,
-                        color: Colors.grey,
-                        margin: EdgeInsets.symmetric(horizontal: 12),
+                        height: 60,
+                        width: MediaQuery.of(context).size.width - 60,
+                        decoration: BoxDecoration(
+                            color: Color(0xffff9601),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Center(
+                          child: Text(
+                            "Lets Go",
+                            style: TextStyle(
+                                fontSize: 17,
+                                color: Color(0xfffbe2ae),
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              otpField(),
-              SizedBox(
-                height: 40,
-              ),
-              RichText(
-                  text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: "Send OTP again in ",
-                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent),
-                  ),
-                  TextSpan(
-                    text: "00:$start",
-                    style: TextStyle(fontSize: 16, color: Colors.pinkAccent),
-                  ),
-                  TextSpan(
-                    text: " sec ",
-                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent),
-                  ),
-                ],
-              )),
-              SizedBox(
-                height: 150,
-              ),
-              InkWell(
-                onTap: () {
-                  authClass.signInwithPhoneNumber(
-                      verificationIdFinal, smsCode, context);
-                },
-                child: Container(
-                  height: 60,
-                  width: MediaQuery.of(context).size.width - 60,
-                  decoration: BoxDecoration(
-                      color: Color(0xffff9601),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Center(
-                    child: Text(
-                      "Lets Go",
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Color(0xfffbe2ae),
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 
   void startTimer() {
@@ -223,5 +237,11 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
       verificationIdFinal = verificationId;
     });
     startTimer();
+  }
+
+  void setLoading(bool value) {
+    setState(() {
+      loading = value;
+    });
   }
 }

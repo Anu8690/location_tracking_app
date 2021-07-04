@@ -1,9 +1,9 @@
-// import 'package:location_tracking_app/pages/HomePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:location_tracking_app/Models/User.dart' as userData;
+// import ''
 
 class AuthClass {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,8 +32,10 @@ class AuthClass {
         idToken: googleSignInAuthentication?.idToken,
       );
       if (googleSignInAccount != null) {
-      UserCredential? userCredential =
-          await _auth.signInWithCredential(credential);
+        UserCredential? userCredential =
+            await _auth.signInWithCredential(credential);
+        userData.User user = new userData.User(uid: _auth.currentUser!.uid);
+        await user.addUser();
       }
     } catch (e) {
       print("here---->");
@@ -92,7 +94,8 @@ class AuthClass {
 
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
-          
+      userData.User user = new userData.User(uid: _auth.currentUser!.uid);
+        await user.addUser();
       showSnackBar(context, "logged In");
     } catch (e) {
       showSnackBar(context, e.toString());

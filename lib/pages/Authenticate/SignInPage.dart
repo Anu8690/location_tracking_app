@@ -4,8 +4,8 @@ import 'package:location_tracking_app/pages/Authenticate/SignUpPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-
-import '../HomePage.dart';
+import 'package:location_tracking_app/pages/wrapper.dart';
+import 'package:location_tracking_app/shared/loading.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -19,106 +19,120 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _pwdController = TextEditingController();
   bool circular = false;
+  bool loading = false;
   AuthClass authClass = AuthClass();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: Colors.black,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Sign In",
-                style: TextStyle(
-                  fontSize: 35,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              buttonItem("assets/google.svg", "Continue with Google", 25, () {
-                authClass.googleSignIn(context);
-              }),
-              SizedBox(
-                height: 15,
-              ),
-              buttonItem("assets/phone.svg", "Continue with Mobile", 30, () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => PhoneAuthPage()));
-              }),
-              SizedBox(
-                height: 18,
-              ),
-              Text(
-                "Or",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              SizedBox(
-                height: 18,
-              ),
-              textItem("Email....", _emailController, false),
-              SizedBox(
-                height: 15,
-              ),
-              textItem("Password...", _pwdController, true),
-              SizedBox(
-                height: 40,
-              ),
-              colorButton(),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "If you don't have an Account? ",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+    return loading
+        ? Loading(message: 'Logginh In...')
+        : Scaffold(
+            body: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Sign In",
+                      style: TextStyle(
+                        fontSize: 35,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
+                    SizedBox(
+                      height: 20,
+                    ),
+                    buttonItem("assets/google.svg", "Continue with Google", 25,
+                        () async {
+                      setState(() {
+                        loading = true;
+                      });
+                      await authClass.googleSignIn(context);
+                      setState(() {
+                        loading = false;
+                      });
+                    }),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    buttonItem("assets/phone.svg", "Continue with Mobile", 30,
+                        () {
+                      Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (builder) => SignUpPage()),
-                          (route) => false);
-                    },
-                    child: Text(
-                      "SignUp",
+                          MaterialPageRoute(
+                              builder: (builder) => PhoneAuthPage()));
+                    }),
+                    SizedBox(
+                      height: 18,
+                    ),
+                    Text(
+                      "Or",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    SizedBox(
+                      height: 18,
+                    ),
+                    textItem("Email....", _emailController, false),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    textItem("Password...", _pwdController, true),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    colorButton(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "If you don't have an Account? ",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => SignUpPage()),
+                                (route) => false);
+                          },
+                          child: Text(
+                            "SignUp",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Forgot Password?",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Forgot Password?",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 
   Widget colorButton() {
@@ -127,14 +141,14 @@ class _SignInPageState extends State<SignInPage> {
         try {
           firebase_auth.UserCredential userCredential =
               await firebaseAuth.signInWithEmailAndPassword(
-                  email: _emailController.text, password: _pwdController.text);
+                  email: _emailController.text, password: _pwdController.text);              
           print(userCredential.user!.email);
           setState(() {
             circular = false;
           });
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (builder) => HomePage()),
+              MaterialPageRoute(builder: (builder) => Wrapper()),
               (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
@@ -173,7 +187,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget buttonItem(
       String imagepath, String buttonName, double size, Function onTap) {
     return InkWell(
-      onTap: ()=>onTap(),
+      onTap: () => onTap(),
       child: Container(
         width: MediaQuery.of(context).size.width - 60,
         height: 60,
