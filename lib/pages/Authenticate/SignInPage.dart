@@ -1,4 +1,5 @@
 import 'package:location_tracking_app/Service/Auth_Service.dart';
+import 'package:location_tracking_app/pages/Authenticate/PhoneAuth.dart';
 import 'package:location_tracking_app/pages/Authenticate/SignUpPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,7 +49,10 @@ class _SignInPageState extends State<SignInPage> {
               SizedBox(
                 height: 15,
               ),
-              buttonItem("assets/phone.svg", "Continue with Mobile", 30, () {}),
+              buttonItem("assets/phone.svg", "Continue with Mobile", 30, () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (builder) => PhoneAuthPage()));
+              }),
               SizedBox(
                 height: 18,
               ),

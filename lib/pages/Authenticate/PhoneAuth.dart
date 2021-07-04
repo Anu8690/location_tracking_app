@@ -147,7 +147,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
     return OTPTextField(
       length: 6,
       width: MediaQuery.of(context).size.width - 34,
-      fieldWidth: 58,
+      fieldWidth: 40,
       otpFieldStyle: OtpFieldStyle(
         backgroundColor: Color(0xff1d1d1d),
         borderColor: Colors.white,

@@ -40,28 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               SizedBox(
-                height: 20,
-              ),
-              buttonItem("assets/google.svg", "Continue with Google", 25,
-                  () async {
-                await authClass.googleSignIn(context);
-              }),
-              SizedBox(
-                height: 15,
-              ),
-              buttonItem("assets/phone.svg", "Continue with Mobile", 30, () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (builder) => PhoneAuthPage()));
-              }),
-              SizedBox(
-                height: 18,
-              ),
-              Text(
-                "Or",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              SizedBox(
-                height: 18,
+                height: 38,
               ),
               textItem("Email....", _emailController, false),
               SizedBox(
