@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 FirebaseAuth _auth = FirebaseAuth.instance;
 
 class User {
@@ -9,7 +8,9 @@ class User {
   final String uid;
   final String? name;
   final String? imageUrl;
-  User({required this.uid, this.name = '', this.imageUrl = tempUserImageUrl});
+  final String? longitude;
+  final String? latitude;
+  User({required this.uid, this.name = '', this.imageUrl = tempUserImageUrl, this.longitude = '',this.latitude = ''});
 
   Future addUser() async {
     assert(_auth.currentUser != null);
@@ -27,6 +28,10 @@ class User {
           'uid': uid,
           'fname': name,
           'imageUrl': imageUrl,
+          'location' : {
+            'longitude' : longitude,
+            'latitude' : latitude,
+          }
         });
         // print("user added to databse");
       } catch (e) {
