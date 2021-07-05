@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:location_tracking_app/Models/User.dart' as userData;
 import 'package:location_tracking_app/Service/Auth_Service.dart';
 import 'package:flutter/material.dart';
 import 'package:location_tracking_app/Service/location_service.dart';
@@ -8,7 +6,7 @@ import 'package:location_tracking_app/pages/Profile/profilePage.dart';
 import 'package:location_tracking_app/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -24,37 +22,34 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // StreamProvider<List<userData.User>>.value(
-        //   initialData: [],
-        //   value: LocationService().users,
-        //   child:
-        FutureBuilder(
-            future: LocationService().getAndUpdateCurrentLocation(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done) {
-                return Loading(message: 'Loading.. Please wait');
-              } else if (snapshot.hasError) {
-                print(snapshot.error.toString());
-                return Text(snapshot.error.toString());
-              }
-              print("snapshot data is ${snapshot.toString()}");
-              return Scaffold(
-                drawer: drawerBar(),
-                appBar: AppBar(
-                  actions: [
-                    IconButton(
-                        icon: Icon(Icons.logout),
-                        onPressed: () async {
-                          await authClass.signOut();
-                        }),
-                  ],
-                ),
-                body: MapSample(currentLocation: snapshot.data as Position),
-              );
+    return StreamProvider<Map<MarkerId, Marker>>.value(
+      initialData: <MarkerId, Marker>{},
+      value: LocationService().userMarks,
+      child: FutureBuilder(
+          future: LocationService().getAndUpdateCurrentLocation(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return Loading(message: 'Loading.. Please wait');
+            } else if (snapshot.hasError) {
+              print(snapshot.error.toString());
+              return Text(snapshot.error.toString());
             }
-            // ),
+            print("snapshot data is ${snapshot.toString()}");
+            return Scaffold(
+              drawer: drawerBar(),
+              appBar: AppBar(
+                actions: [
+                  IconButton(
+                      icon: Icon(Icons.logout),
+                      onPressed: () async {
+                        await authClass.signOut();
+                      }),
+                ],
+              ),
+              body: MapSample(currentLocation: snapshot.data as Position),
             );
+          }),
+    );
   }
 
   Widget drawerBar() {

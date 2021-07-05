@@ -2,6 +2,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MapSample extends StatefulWidget {
   final Position currentLocation;
@@ -14,8 +15,6 @@ class MapSampleState extends State<MapSample> {
   Completer<GoogleMapController> _controller = Completer();
   final MarkerId markerId = MarkerId("Anurag");
 
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(26.922070, 75.778885),
     zoom: 14.4746,
@@ -27,25 +26,27 @@ class MapSampleState extends State<MapSample> {
   //     tilt: 59.440717697143555,
   //     zoom: 19.151926040649414);
 
-  @override
-  void initState() {
-    super.initState();
-    final Marker marker = Marker(
-      markerId: markerId,
-      position: LatLng(
-        widget.currentLocation.latitude,
-        widget.currentLocation.longitude,
-      ),
-      infoWindow: InfoWindow(title: "Anurag", snippet: '*'),
-      // onTap: () {
-      //   _onMarkerTapped(markerId);
-      // },
-    );
-    markers[markerId] = marker;
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   final Marker marker = Marker(
+  //     markerId: markerId,
+  //     position: LatLng(
+  //       widget.currentLocation.latitude,
+  //       widget.currentLocation.longitude,
+  //     ),
+  //     infoWindow: InfoWindow(title: "Anurag", snippet: '*'),
+  //     // onTap: () {
+  //     //   _onMarkerTapped(markerId);
+  //     // },
+  //   );
+  //   markers[markerId] = marker;
+  // }
 
   @override
   Widget build(BuildContext context) {
+    Map<MarkerId, Marker> markers = Provider.of<Map<MarkerId, Marker>>(context);
+    print('marksers got are ${markers.toString()}');
     return Scaffold(
       body: GoogleMap(
         markers: Set<Marker>.of(markers.values),
