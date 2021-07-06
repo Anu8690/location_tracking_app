@@ -25,7 +25,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return loading
-        ? Loading(message: 'Logginh In...')
+        ? Loading(message: 'Logging In...')
         : Scaffold(
             body: SingleChildScrollView(
               child: Container(
@@ -46,33 +46,33 @@ class _SignInPageState extends State<SignInPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    buttonItem("assets/google.svg", "Continue with Google", 25,
-                        () async {
-                      setState(() {
-                        loading = true;
-                      });
-                      await authClass.googleSignIn(context);
-                      setState(() {
-                        loading = false;
-                      });
-                    }),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    buttonItem("assets/phone.svg", "Continue with Mobile", 30,
-                        () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => PhoneAuthPage()));
-                    }),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    Text(
-                      "Or",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                    // buttonItem("assets/google.svg", "Continue with Google", 25,
+                    //     () async {
+                    //   setState(() {
+                    //     loading = true;
+                    //   });
+                    //   await authClass.googleSignIn(context);
+                    //   // setState(() {
+                    //   //   loading = false;
+                    //   // });
+                    // }),
+                    // SizedBox(
+                    //   height: 15,
+                    // ),
+                    // buttonItem("assets/phone.svg", "Continue with Mobile", 30,
+                    //     () {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (builder) => PhoneAuthPage()));
+                    // }),
+                    // SizedBox(
+                    //   height: 18,
+                    // ),
+                    // Text(
+                    //   "Or",
+                    //   style: TextStyle(color: Colors.white, fontSize: 18),
+                    // ),
                     SizedBox(
                       height: 18,
                     ),

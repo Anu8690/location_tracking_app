@@ -28,11 +28,7 @@ class User {
           'uid': uid,
           'fname': name,
           'imageUrl': imageUrl,
-          'location' : {
-            'longitude' : longitude,
-            'latitude' : latitude,
-          }
-        });
+        },SetOptions(merge: true));
         // print("user added to databse");
       } catch (e) {
         // for if some error occured

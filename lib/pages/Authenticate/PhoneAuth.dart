@@ -86,21 +86,21 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                     RichText(
                         text: TextSpan(
                       children: [
-                        TextSpan(
-                          text: "Send OTP again in ",
-                          style: TextStyle(
-                              fontSize: 16, color: Colors.yellowAccent),
-                        ),
-                        TextSpan(
-                          text: "00:$start",
-                          style:
-                              TextStyle(fontSize: 16, color: Colors.pinkAccent),
-                        ),
-                        TextSpan(
-                          text: " sec ",
-                          style: TextStyle(
-                              fontSize: 16, color: Colors.yellowAccent),
-                        ),
+                        // TextSpan(
+                        //   text: "Send OTP again in ",
+                        //   style: TextStyle(
+                        //       fontSize: 16, color: Colors.yellowAccent),
+                        // ),
+                        // TextSpan(
+                        //   text: "00:$start",
+                        //   style:
+                        //       TextStyle(fontSize: 16, color: Colors.pinkAccent),
+                        // ),
+                        // TextSpan(
+                        //   text: " sec ",
+                        //   style: TextStyle(
+                        //       fontSize: 16, color: Colors.yellowAccent),
+                        // ),
                       ],
                     )),
                     SizedBox(
@@ -141,21 +141,21 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
           );
   }
 
-  void startTimer() {
-    const onsec = Duration(seconds: 1);
-    Timer _timer = Timer.periodic(onsec, (timer) {
-      if (start == 0) {
-        setState(() {
-          timer.cancel();
-          wait = false;
-        });
-      } else {
-        setState(() {
-          start--;
-        });
-      }
-    });
-  }
+  // void startTimer() {
+  //   const onsec = Duration(seconds: 1);
+  //   Timer _timer = Timer.periodic(onsec, (timer) {
+  //     if (start == 0) {
+  //       setState(() {
+  //         timer.cancel();
+  //         wait = false;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         start--;
+  //       });
+  //     }
+  //   });
+  // }
 
   Widget otpField() {
     return OTPTextField(
@@ -236,12 +236,14 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
     setState(() {
       verificationIdFinal = verificationId;
     });
-    startTimer();
+    // startTimer();
   }
 
   void setLoading(bool value) {
-    setState(() {
-      loading = value;
-    });
+    if (mounted) {
+      setState(() {
+        loading = value;
+      });
+    }
   }
 }

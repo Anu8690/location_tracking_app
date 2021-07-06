@@ -1,6 +1,7 @@
 import 'package:location_tracking_app/Service/Auth_Service.dart';
 import 'package:flutter/material.dart';
 import 'package:location_tracking_app/Service/location_service.dart';
+import 'package:location_tracking_app/pages/Groups/groups.dart';
 import 'package:location_tracking_app/pages/Maps/map.dart';
 import 'package:location_tracking_app/pages/Profile/profilePage.dart';
 import 'package:location_tracking_app/shared/loading.dart';
@@ -81,9 +82,13 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             leading: Icon(Icons.search),
-            title: Text('Search Product'),
+            title: Text('Groups'),
             selected: _selectedDestination == 1,
-            onTap: () => selectDestination(1),
+            onTap: () {
+              selectDestination(1);
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Groups()));
+            },
           ),
           ListTile(
             leading: Icon(Icons.label),
