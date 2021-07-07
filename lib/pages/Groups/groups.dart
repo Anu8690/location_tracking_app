@@ -4,6 +4,7 @@ import 'package:location_tracking_app/pages/Groups/groupList.dart';
 import 'package:location_tracking_app/pages/Groups/search.dart';
 import 'package:provider/provider.dart';
 import 'package:location_tracking_app/Models/Group.dart';
+
 class Groups extends StatefulWidget {
   const Groups({Key? key}) : super(key: key);
 
@@ -15,15 +16,18 @@ class _GroupsState extends State<Groups> {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<List<Group>>.value(
-      initialData:[],
+      initialData: [],
       value: GroupService().groups,
-          child: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Search()));
-        }),
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Search()));
+          },
+          child: Icon(Icons.add),
+        ),
         appBar: AppBar(
-          title: Text('Groups'),
+          title: Text('My Groups'),
         ),
         body: GroupList(),
       ),
