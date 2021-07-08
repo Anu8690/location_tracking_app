@@ -13,7 +13,7 @@ class GroupService {
       Map<dynamic, dynamic> data = doc.data() as Map<String, dynamic>;
       if (data['userUidList'].contains(uid)) {
         myGrp.add(
-            Group(grpName: data['grpName'], userUidList: data['userUidList']));
+            Group(grpName: data['grpName'], userUidList: data['userUidList'],docId: data['docId']));
       }
     });
     return myGrp;

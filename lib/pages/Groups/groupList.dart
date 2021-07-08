@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:location_tracking_app/pages/Groups/groupProfile.dart';
 import 'package:provider/provider.dart';
 import 'package:location_tracking_app/Models/Group.dart';
 
@@ -24,7 +25,7 @@ class _GroupListState extends State<GroupList> {
               trailing: IconButton(
                 icon: Icon(Icons.arrow_forward),
                 onPressed: () {
-                  // got ot the map representing the grp
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> GroupProfile(grp:_grpList[index])));
                 },
               ),
               isThreeLine: true,

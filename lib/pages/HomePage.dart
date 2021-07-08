@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             leading: Icon(Icons.label),
-            title: Text('Generate Bill'),
+            title: Text('Test Page'),
             selected: _selectedDestination == 2,
             onTap: () {
               selectDestination(2);
