@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
+
 class GroupService {
   CollectionReference grpCollection =
       FirebaseFirestore.instance.collection('groups');
@@ -12,8 +13,10 @@ class GroupService {
     snapshot.docs.forEach((doc) {
       Map<dynamic, dynamic> data = doc.data() as Map<String, dynamic>;
       if (data['userUidList'].contains(uid)) {
-        myGrp.add(
-            Group(grpName: data['grpName'], userUidList: data['userUidList'],docId: data['docId']));
+        myGrp.add(Group(
+            grpName: data['grpName'],
+            userUidList: data['userUidList'],
+            docId: data['docId']));
       }
     });
     return myGrp;

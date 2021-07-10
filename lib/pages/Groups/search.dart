@@ -13,6 +13,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   TextEditingController _searchQuery = TextEditingController();
   late String grpName;
+  
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
   List<QueryDocumentSnapshot> _searchedUsernamesDoc = <QueryDocumentSnapshot>[];
@@ -30,7 +31,6 @@ class _SearchState extends State<Search> {
     setState(() {
       _searchedUsernamesDoc = result;
     });
-    print('searched names are ${_searchedUsernamesDoc.toString()}');
   }
 
   @override

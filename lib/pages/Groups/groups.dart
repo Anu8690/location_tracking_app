@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location_tracking_app/Service/grp_service.dart';
 import 'package:location_tracking_app/pages/Groups/groupList.dart';
-import 'package:location_tracking_app/pages/Groups/search.dart';
 import 'package:provider/provider.dart';
 import 'package:location_tracking_app/Models/Group.dart';
 
@@ -22,7 +21,7 @@ class _GroupsState extends State<Groups> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Search()));
+                .pushNamed('/search');
           },
           child: Icon(Icons.add),
         ),

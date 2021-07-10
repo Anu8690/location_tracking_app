@@ -1,10 +1,6 @@
-import 'package:location_tracking_app/Service/Auth_Service.dart';
-import 'package:location_tracking_app/pages/Authenticate/PhoneAuth.dart';
-import 'package:location_tracking_app/pages/Authenticate/SignUpPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:location_tracking_app/pages/wrapper.dart';
 import 'package:location_tracking_app/shared/loading.dart';
 
 class SignInPage extends StatefulWidget {
@@ -20,7 +16,6 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController _pwdController = TextEditingController();
   bool circular = false;
   bool loading = false;
-  AuthClass authClass = AuthClass();
 
   @override
   Widget build(BuildContext context) {
@@ -46,33 +41,6 @@ class _SignInPageState extends State<SignInPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    // buttonItem("assets/google.svg", "Continue with Google", 25,
-                    //     () async {
-                    //   setState(() {
-                    //     loading = true;
-                    //   });
-                    //   await authClass.googleSignIn(context);
-                    //   // setState(() {
-                    //   //   loading = false;
-                    //   // });
-                    // }),
-                    // SizedBox(
-                    //   height: 15,
-                    // ),
-                    // buttonItem("assets/phone.svg", "Continue with Mobile", 30,
-                    //     () {
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (builder) => PhoneAuthPage()));
-                    // }),
-                    // SizedBox(
-                    //   height: 18,
-                    // ),
-                    // Text(
-                    //   "Or",
-                    //   style: TextStyle(color: Colors.white, fontSize: 18),
-                    // ),
                     SizedBox(
                       height: 18,
                     ),
@@ -100,11 +68,8 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (builder) => SignUpPage()),
-                                (route) => false);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, '/signup', (route) => false);
                           },
                           child: Text(
                             "SignUp",
@@ -141,15 +106,13 @@ class _SignInPageState extends State<SignInPage> {
         try {
           firebase_auth.UserCredential userCredential =
               await firebaseAuth.signInWithEmailAndPassword(
-                  email: _emailController.text, password: _pwdController.text);              
+                  email: _emailController.text, password: _pwdController.text);
           print(userCredential.user!.email);
           setState(() {
             circular = false;
           });
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (builder) => Wrapper()),
-              (route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/', (Route<dynamic> route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
           ScaffoldMessenger.of(context).showSnackBar(snackbar);

@@ -1,6 +1,3 @@
-import 'package:location_tracking_app/Service/Auth_Service.dart';
-import 'package:location_tracking_app/pages/HomePage.dart';
-import 'package:location_tracking_app/pages/Authenticate/SignInPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -19,7 +16,6 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _pwdController = TextEditingController();
   bool circular = false;
-  AuthClass authClass = AuthClass();
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +67,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (builder) => SignInPage()),
-                          (route) => false);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (route) => false);
                     },
                     child: Text(
                       "Login",
@@ -104,16 +98,14 @@ class _SignUpPageState extends State<SignUpPage> {
           firebase_auth.UserCredential userCredential =
               await firebaseAuth.createUserWithEmailAndPassword(
                   email: _emailController.text, password: _pwdController.text);
-              userData.User user = new userData.User(uid: firebaseAuth.currentUser!.uid,name: _nameController.text);
-              await user.addUser();
+          userData.User user = new userData.User(
+              uid: firebaseAuth.currentUser!.uid, name: _nameController.text);
+          await user.addUser();
           print(userCredential.user!.email);
           setState(() {
             circular = false;
           });
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (builder) => HomePage()),
-              (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -151,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget buttonItem(
       String imagepath, String buttonName, double size, Function onTap) {
     return InkWell(
-      onTap:()=> onTap(),
+      onTap: () => onTap(),
       child: Container(
         width: MediaQuery.of(context).size.width - 60,
         height: 60,

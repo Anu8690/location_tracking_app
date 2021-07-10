@@ -1,13 +1,5 @@
 import 'package:location_tracking_app/Service/Auth_Service.dart';
 import 'package:flutter/material.dart';
-import 'package:location_tracking_app/Service/location_service.dart';
-import 'package:location_tracking_app/pages/Groups/groups.dart';
-import 'package:location_tracking_app/pages/Maps/map.dart';
-import 'package:location_tracking_app/pages/Profile/profilePage.dart';
-import 'package:location_tracking_app/shared/loading.dart';
-import 'package:provider/provider.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -19,44 +11,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   AuthClass authClass = AuthClass();
   int _selectedDestination = 0;
-  late Position currentLocation;
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<Map<MarkerId, Marker>>.value(
-      initialData: <MarkerId, Marker>{},
-      value: LocationService().userMarks,
-      child: FutureBuilder(
-          future: LocationService().getAndUpdateCurrentLocation(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return Loading(message: 'Loading.. Please wait');
-            } else if (snapshot.hasError) {
-              print(snapshot.error.toString());
-              return Text(snapshot.error.toString());
-            }
-            print("snapshot data is ${snapshot.toString()}");
-            return Scaffold(
-              drawer: drawerBar(),
-              appBar: AppBar(
-                actions: [
-                  IconButton(
-                      icon: Icon(Icons.logout),
-                      onPressed: () async {
-                        await authClass.signOut();
-                      }),
-                ],
-              ),
-              body: MapSample(currentLocation: snapshot.data as Position),
-            );
-          }),
+    return Scaffold(
+      drawer: drawerBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () async {
+                await authClass.signOut();
+              }),
+        ],
+      ),
     );
   }
 
   Widget drawerBar() {
     return Drawer(
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: <Widget>[
           Padding(
@@ -77,7 +51,7 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               selectDestination(0);
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => ProfilePage()));
+                  .pushNamed('/profile');
             },
           ),
           ListTile(
@@ -86,8 +60,7 @@ class _HomePageState extends State<HomePage> {
             selected: _selectedDestination == 1,
             onTap: () {
               selectDestination(1);
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Groups()));
+              Navigator.of(context).pushNamed('/groups');
             },
           ),
           ListTile(

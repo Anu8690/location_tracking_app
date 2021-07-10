@@ -11,13 +11,12 @@ class Group {
   CollectionReference userRef = FirebaseFirestore.instance.collection('users');
 
   Future<void> createGrp() async {
-    DocumentReference docGrpRef = await grpRef.add({
+    DocumentReference randomDoc = grpRef.doc();
+    await grpRef.doc(randomDoc.id).set({
       'grpName': grpName,
       'userUidList': userUidList,
+      'docId': randomDoc.id,
     });
-    await grpRef.doc(docGrpRef.id).set({
-      'docId': docGrpRef.id,
-    }, SetOptions(merge: true));
   }
 
   Future<List<User>> populateUsers() async {
@@ -34,7 +33,8 @@ class Group {
 
   Future<void> deleteUserFromGrp(String uid) async {
     userUidList.remove(uid);
-    await grpRef.doc(docId).set({'userUidList': userUidList},SetOptions(merge: true));
-    
+    await grpRef
+        .doc(docId)
+        .set({'userUidList': userUidList}, SetOptions(merge: true));
   }
 }
