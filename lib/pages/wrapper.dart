@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:location_tracking_app/pages/Groups/groups.dart';
 import 'package:location_tracking_app/pages/HomePage.dart';
 import 'package:location_tracking_app/pages/Authenticate/SignInPage.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,8 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return SignInPage();
     } else {
-      return HomePage();
+      // return HomePage();
+      return Groups();
     }
   }
 }

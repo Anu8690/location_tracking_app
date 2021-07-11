@@ -1,8 +1,10 @@
 import 'package:location_tracking_app/Service/Auth_Service.dart';
 import 'package:flutter/material.dart';
+import 'package:location_tracking_app/pages/Maps/map.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  final String grpDocId;
+  HomePage({required this.grpDocId,Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,6 +27,7 @@ class _HomePageState extends State<HomePage> {
               }),
         ],
       ),
+      body: MapScreen(grpDocId:widget.grpDocId),
     );
   }
 
@@ -50,8 +53,7 @@ class _HomePageState extends State<HomePage> {
             selected: _selectedDestination == 0,
             onTap: () {
               selectDestination(0);
-              Navigator.of(context)
-                  .pushNamed('/profile');
+              Navigator.of(context).pushNamed('/profile');
             },
           ),
           ListTile(

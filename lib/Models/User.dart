@@ -8,9 +8,7 @@ class User {
   final String uid;
   final String? name;
   final String? imageUrl;
-  final String? longitude;
-  final String? latitude;
-  User({required this.uid, this.name = '', this.imageUrl = tempUserImageUrl, this.longitude = '',this.latitude = ''});
+  User({required this.uid, this.name = '', this.imageUrl = tempUserImageUrl});
 
   Future addUser() async {
     assert(_auth.currentUser != null);
