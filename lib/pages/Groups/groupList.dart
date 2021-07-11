@@ -20,7 +20,6 @@ class _GroupListState extends State<GroupList> {
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              // leading: Image.network(_cartList[index].imageUrl),
               title: Text(_grpList[index].grpName),
               subtitle: TextButton(
                 child: Text('Group Info'),
@@ -35,7 +34,7 @@ class _GroupListState extends State<GroupList> {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          HomePage(grpDocId: _grpList[index].docId,)));
+                          HomePage(grpDocId: _grpList[index].docId,grpName: _grpList[index].grpName,)));
                 },
               ),
               isThreeLine: true,
